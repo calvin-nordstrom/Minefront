@@ -1,6 +1,7 @@
 package com.calvinnordstrom.minefront.event.client;
 
 import com.calvinnordstrom.minefront.Minefront;
+import com.calvinnordstrom.minefront.item.custom.GunItem;
 import com.calvinnordstrom.minefront.network.StartShootingPayload;
 import com.calvinnordstrom.minefront.network.StopShootingPayload;
 import net.minecraft.client.Minecraft;
@@ -26,10 +27,15 @@ public final class GunItemEvents {
         Player player = Minecraft.getInstance().player;
         Options options = Minecraft.getInstance().options;
 
+        GunItem gun = getHeldGun(player);
+        if (gun == null) {
+            return;
+        }
+
         // Handle aiming sensitivity
         if (isAiming(player) && storedSensitivity < 0) {
             storedSensitivity = options.sensitivity().get();
-            options.sensitivity().set(storedSensitivity * getHeldGun(player).getAimSensitivityCoefficient());
+            options.sensitivity().set(storedSensitivity * gun.getStats().getAimSensitivityCoefficient());
         } else if (!isAiming(player) && storedSensitivity >= 0) {
             options.sensitivity().set(storedSensitivity);
             storedSensitivity = -1;
@@ -51,17 +57,25 @@ public final class GunItemEvents {
 
     @SubscribeEvent
     public static void onComputeFovModifier(ComputeFovModifierEvent event) {
-        // Handle aiming FOV
         Player player = event.getPlayer();
+
+        GunItem gun = getHeldGun(player);
+        if (gun == null) {
+            return;
+        }
+
+        // Handle aiming FOV
         if (isAiming(player)) {
-            event.setNewFovModifier(getHeldGun(player).getAimFovModifier());
+            event.setNewFovModifier(gun.getStats().getAimFovModifier());
         }
     }
 
     @SubscribeEvent
     public static void onInput(InputEvent.InteractionKeyMappingTriggered event) {
+        Player player = Minecraft.getInstance().player;
+
         // Handle gun input behavior and remove hand swinging
-        if (isHoldingGun(Minecraft.getInstance().player)) {
+        if (isHoldingGun(player)) {
             if (event.isAttack()) {
                 event.setCanceled(true);
             }
