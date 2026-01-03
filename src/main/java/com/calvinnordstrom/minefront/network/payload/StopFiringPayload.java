@@ -1,4 +1,4 @@
-package com.calvinnordstrom.minefront.network;
+package com.calvinnordstrom.minefront.network.payload;
 
 import com.calvinnordstrom.minefront.Minefront;
 import io.netty.buffer.ByteBuf;

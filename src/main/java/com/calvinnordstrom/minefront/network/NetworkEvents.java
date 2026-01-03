@@ -1,11 +1,11 @@
-package com.calvinnordstrom.minefront.event;
+package com.calvinnordstrom.minefront.network;
 
 import com.calvinnordstrom.minefront.Minefront;
 import com.calvinnordstrom.minefront.attachment.ModAttachments;
 import com.calvinnordstrom.minefront.attachment.custom.GunState;
 import com.calvinnordstrom.minefront.item.custom.GunItem;
-import com.calvinnordstrom.minefront.network.StartFiringPayload;
-import com.calvinnordstrom.minefront.network.StopFiringPayload;
+import com.calvinnordstrom.minefront.network.payload.StartFiringPayload;
+import com.calvinnordstrom.minefront.network.payload.StopFiringPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;

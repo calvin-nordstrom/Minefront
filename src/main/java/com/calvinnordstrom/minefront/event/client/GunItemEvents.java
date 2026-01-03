@@ -2,8 +2,8 @@ package com.calvinnordstrom.minefront.event.client;
 
 import com.calvinnordstrom.minefront.Minefront;
 import com.calvinnordstrom.minefront.item.custom.GunItem;
-import com.calvinnordstrom.minefront.network.StartFiringPayload;
-import com.calvinnordstrom.minefront.network.StopFiringPayload;
+import com.calvinnordstrom.minefront.network.payload.StartFiringPayload;
+import com.calvinnordstrom.minefront.network.payload.StopFiringPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import net.minecraft.world.entity.player.Player;
