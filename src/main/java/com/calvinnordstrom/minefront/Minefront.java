@@ -1,9 +1,12 @@
 package com.calvinnordstrom.minefront;
 
 import com.calvinnordstrom.minefront.attachment.ModAttachments;
+import com.calvinnordstrom.minefront.entity.ModEntities;
+import com.calvinnordstrom.minefront.entity.client.BulletEntityRenderer;
 import com.calvinnordstrom.minefront.item.ModCreativeModeTabs;
 import com.calvinnordstrom.minefront.item.ModItems;
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -33,6 +36,8 @@ public class Minefront {
 
         ModItems.register(modEventBus);
 
+        ModEntities.register(modEventBus);
+
         modEventBus.addListener(this::addCreative);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
@@ -51,7 +56,7 @@ public class Minefront {
     static class ClientModEvents {
         @SubscribeEvent
         static void onClientSetup(FMLClientSetupEvent event) {
-
+            EntityRenderers.register(ModEntities.BULLET.get(), BulletEntityRenderer::new);
         }
     }
 }
