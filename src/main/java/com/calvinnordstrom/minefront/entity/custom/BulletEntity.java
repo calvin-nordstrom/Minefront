@@ -1,5 +1,6 @@
 package com.calvinnordstrom.minefront.entity.custom;
 
+import com.calvinnordstrom.minefront.Minefront;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -19,6 +20,7 @@ import net.minecraft.world.phys.Vec3;
 public class BulletEntity extends Projectile {
     public static final EntityDataAccessor<Float> YAW = SynchedEntityData.defineId(BulletEntity.class, EntityDataSerializers.FLOAT);
     public static final EntityDataAccessor<Float> PITCH = SynchedEntityData.defineId(BulletEntity.class, EntityDataSerializers.FLOAT);
+    private static final double GRAVITY = 0.05;
     private Vec3 prevPos = Vec3.ZERO;
     private float prevYaw;
     private float prevPitch;
@@ -32,24 +34,6 @@ public class BulletEntity extends Projectile {
         this(entityType, level);
         setOwner(shooter);
         setPos(shooter.getX(), shooter.getEyeY() - 0.1, shooter.getZ());
-    }
-
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        builder.define(YAW, 0f);
-        builder.define(PITCH, 0f);
-    }
-
-    @Override
-    protected void onHitBlock(BlockHitResult result) {
-        System.out.println("Hit " + result.getBlockPos());
-        this.discard();
-    }
-
-    @Override
-    protected void onHitEntity(EntityHitResult result) {
-        System.out.println("Hit entity");
-        this.discard();
     }
 
     public void shoot(Vec3 direction, double velocity) {
@@ -71,7 +55,11 @@ public class BulletEntity extends Projectile {
 
     private void serverTick() {
         Vec3 start = position();
+
         Vec3 velocity = getDeltaMovement();
+        velocity = velocity.add(0, -GRAVITY, 0);
+        setDeltaMovement(velocity);
+
         Vec3 end = start.add(velocity);
 
         HitResult hit = raycast(start, end);
@@ -132,6 +120,24 @@ public class BulletEntity extends Projectile {
 
     public float getInterpolatedPitch(float partial) {
         return Mth.lerp(partial, prevPitch, entityData.get(PITCH));
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        builder.define(YAW, 0f);
+        builder.define(PITCH, 0f);
+    }
+
+    @Override
+    protected void onHitBlock(BlockHitResult result) {
+        Minefront.LOGGER.info("Block hit: {}", level().getBlockState(result.getBlockPos()).getBlock());
+        discard();
+    }
+
+    @Override
+    protected void onHitEntity(EntityHitResult result) {
+        Minefront.LOGGER.info("Entity hit: {}", result.getEntity());
+        discard();
     }
 
     @Override
