@@ -4,8 +4,8 @@ import com.calvinnordstrom.minefront.Minefront;
 import com.calvinnordstrom.minefront.attachment.ModAttachments;
 import com.calvinnordstrom.minefront.attachment.custom.GunState;
 import com.calvinnordstrom.minefront.item.custom.GunItem;
-import com.calvinnordstrom.minefront.network.StartShootingPayload;
-import com.calvinnordstrom.minefront.network.StopShootingPayload;
+import com.calvinnordstrom.minefront.network.StartFiringPayload;
+import com.calvinnordstrom.minefront.network.StopFiringPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -22,11 +22,11 @@ public final class NetworkEvents {
     public static void register(RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar("1");
 
-        registrar.playBidirectional(StartShootingPayload.TYPE, StartShootingPayload.STREAM_CODEC, NetworkEvents::handleStartShooting);
-        registrar.playBidirectional(StopShootingPayload.TYPE, StopShootingPayload.STREAM_CODEC, NetworkEvents::handleStopShooting);
+        registrar.playBidirectional(StartFiringPayload.TYPE, StartFiringPayload.STREAM_CODEC, NetworkEvents::handleStartShooting);
+        registrar.playBidirectional(StopFiringPayload.TYPE, StopFiringPayload.STREAM_CODEC, NetworkEvents::handleStopShooting);
     }
 
-    private static void handleStartShooting(StartShootingPayload payload, IPayloadContext ctx) {
+    private static void handleStartShooting(StartFiringPayload payload, IPayloadContext ctx) {
         ctx.enqueueWork(() -> {
             Player player = ctx.player();
             if (!(player instanceof ServerPlayer)) {
@@ -43,7 +43,7 @@ public final class NetworkEvents {
         });
     }
 
-    private static void handleStopShooting(StopShootingPayload payload, IPayloadContext ctx) {
+    private static void handleStopShooting(StopFiringPayload payload, IPayloadContext ctx) {
         ctx.enqueueWork(() -> {
             Player player = ctx.player();
             if (!(player instanceof ServerPlayer)) {

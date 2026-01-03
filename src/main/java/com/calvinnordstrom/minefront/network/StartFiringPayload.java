@@ -6,10 +6,10 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
-public record StopShootingPayload() implements CustomPacketPayload {
-    public static final Type<StopShootingPayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Minefront.MOD_ID, "stop_shooting"));
+public record StartFiringPayload() implements CustomPacketPayload {
+    public static final Type<StartFiringPayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Minefront.MOD_ID, "start_firing"));
 
-    public static final StreamCodec<ByteBuf, StopShootingPayload> STREAM_CODEC = StreamCodec.unit(new StopShootingPayload());
+    public static final StreamCodec<ByteBuf, StartFiringPayload> STREAM_CODEC = StreamCodec.unit(new StartFiringPayload());
 
     @Override
     public Type<? extends CustomPacketPayload> type() {

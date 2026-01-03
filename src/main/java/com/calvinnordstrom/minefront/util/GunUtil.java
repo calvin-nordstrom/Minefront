@@ -25,7 +25,7 @@ public class GunUtil {
         return isHoldingGun(player) && Minecraft.getInstance().options.keyUse.isDown();
     }
 
-    public static boolean isShooting(Player player) {
+    public static boolean isFiring(Player player) {
         return isHoldingGun(player) && Minecraft.getInstance().options.keyAttack.isDown();
     }
 }

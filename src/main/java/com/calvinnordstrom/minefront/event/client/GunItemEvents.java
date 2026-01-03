@@ -2,8 +2,8 @@ package com.calvinnordstrom.minefront.event.client;
 
 import com.calvinnordstrom.minefront.Minefront;
 import com.calvinnordstrom.minefront.item.custom.GunItem;
-import com.calvinnordstrom.minefront.network.StartShootingPayload;
-import com.calvinnordstrom.minefront.network.StopShootingPayload;
+import com.calvinnordstrom.minefront.network.StartFiringPayload;
+import com.calvinnordstrom.minefront.network.StopFiringPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import net.minecraft.world.entity.player.Player;
@@ -42,14 +42,14 @@ public final class GunItemEvents {
         }
 
         // Handle shooting
-        if (isShooting(player)) {
+        if (isFiring(player)) {
             if (!triggerHeld) {
-                PacketDistributor.sendToServer(new StartShootingPayload());
+                PacketDistributor.sendToServer(new StartFiringPayload());
             }
             triggerHeld = true;
         } else {
             if (triggerHeld) {
-                PacketDistributor.sendToServer(new StopShootingPayload());
+                PacketDistributor.sendToServer(new StopFiringPayload());
             }
             triggerHeld = false;
         }
