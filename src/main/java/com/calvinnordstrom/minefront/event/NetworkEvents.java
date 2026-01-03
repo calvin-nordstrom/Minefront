@@ -2,9 +2,15 @@ package com.calvinnordstrom.minefront.event;
 
 import com.calvinnordstrom.minefront.Minefront;
 import com.calvinnordstrom.minefront.attachment.ModAttachments;
+import com.calvinnordstrom.minefront.entity.ModEntities;
+import com.calvinnordstrom.minefront.entity.custom.BulletEntity;
+import com.calvinnordstrom.minefront.item.custom.GunItem;
 import com.calvinnordstrom.minefront.network.StartShootingPayload;
 import com.calvinnordstrom.minefront.network.StopShootingPayload;
+import com.calvinnordstrom.minefront.util.GunUtil;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -25,7 +31,17 @@ public final class NetworkEvents {
         ctx.enqueueWork(() -> {
             Player player = ctx.player();
 
-            player.getData(ModAttachments.GUN_STATE).triggerHeld = true;
+            GunItem gunItem = GunUtil.getHeldGun(player);
+            if (gunItem != null) {
+                Level level = player.level();
+
+                player.getData(ModAttachments.GUN_STATE).triggerHeld = true;
+
+                BulletEntity bullet = new BulletEntity(ModEntities.BULLET.get(), level, player);
+                Vec3 look = player.getLookAngle();
+                bullet.shoot(look, gunItem.getVelocity());
+                level.addFreshEntity(bullet);
+            }
         });
     }
 

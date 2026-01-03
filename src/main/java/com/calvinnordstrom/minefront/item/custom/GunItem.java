@@ -3,28 +3,24 @@ package com.calvinnordstrom.minefront.item.custom;
 import net.minecraft.world.item.Item;
 
 public class GunItem extends Item {
-    private float fovModifier;
+    private double velocity;
     private float aimFovModifier;
-    private double sensitivityCoefficient;
     private double aimSensitivityCoefficient;
 
     private GunItem(Properties properties, Builder gunProperties) {
         super(properties);
 
+        velocity = gunProperties.velocity;
         aimFovModifier = gunProperties.aimFovModifier;
         aimSensitivityCoefficient = gunProperties.aimSensitivityCoefficient;
     }
 
-    public float getFovModifier() {
-        return fovModifier;
+    public double getVelocity() {
+        return velocity;
     }
 
     public float getAimFovModifier() {
         return aimFovModifier;
-    }
-
-    public double getSensitivityCoefficient() {
-        return sensitivityCoefficient;
     }
 
     public double getAimSensitivityCoefficient() {
@@ -32,23 +28,17 @@ public class GunItem extends Item {
     }
 
     public static class Builder {
-        private float fovModifier = 1.0f;
+        private double velocity = 0.0f;
         private float aimFovModifier = 1.0f;
-        private double sensitivityCoefficient = 1.0f;
         private double aimSensitivityCoefficient = 1.0f;
 
-        public Builder fovModifier(float fovModifier) {
-            this.fovModifier = fovModifier;
+        public Builder velocity(double velocity) {
+            this.velocity = velocity;
             return this;
         }
 
         public Builder aimFovModifier(float aimFovModifier) {
             this.aimFovModifier = aimFovModifier;
-            return this;
-        }
-
-        public Builder sensitivityCoefficient(double sensitivityCoefficient) {
-            this.sensitivityCoefficient = sensitivityCoefficient;
             return this;
         }
 
