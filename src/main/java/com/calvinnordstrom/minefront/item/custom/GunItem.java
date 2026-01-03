@@ -48,7 +48,22 @@ public class GunItem extends Item {
         }
 
         public GunItem build(Properties properties) {
+            validate();
             return new GunItem(properties, this);
+        }
+
+        private void validate() {
+            if (velocity <= 0.0 || velocity > 100.0) {
+                throw new IllegalArgumentException("Invalid velocity: " + velocity);
+            }
+
+            if (aimFovModifier <= 0.0f || aimFovModifier > 1.0f) {
+                throw new IllegalArgumentException("Invalid aimFovModifier: " + aimFovModifier);
+            }
+
+            if (aimSensitivityCoefficient <= 0.0 || aimSensitivityCoefficient > 1.0) {
+                throw new IllegalArgumentException("Invalid aimSensitivityCoefficient: " + aimSensitivityCoefficient);
+            }
         }
     }
 }
