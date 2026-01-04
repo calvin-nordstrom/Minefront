@@ -7,7 +7,7 @@ import com.calvinnordstrom.minefront.item.custom.GunItem;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
 
-public class BoltFireControl implements FireControl {
+public class RepeatingFireControl implements FireControl {
     @Override
     public void onTriggerPressed(ServerPlayer player, GunItem gun, GunState state) {
         if (state.needsCycling) {

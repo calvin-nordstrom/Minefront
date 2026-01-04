@@ -14,7 +14,7 @@ public class ModItems {
     public static final DeferredItem<Item> KARABINER_98K = ITEMS.register("karabiner_98k", () -> new GunItem(
             new Item.Properties().stacksTo(1),
             new GunStats(8, 20, 0, 0.9f, 0.9),
-            new BoltFireControl()
+            new RepeatingFireControl()
     ));
 
     public static final DeferredItem<Item> MK12_MOD_1 = ITEMS.register("mk12_mod_1", () -> new GunItem(
