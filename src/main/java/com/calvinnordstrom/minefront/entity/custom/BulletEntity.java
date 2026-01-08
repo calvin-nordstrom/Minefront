@@ -21,6 +21,8 @@ public class BulletEntity extends Projectile {
     public static final EntityDataAccessor<Float> YAW = SynchedEntityData.defineId(BulletEntity.class, EntityDataSerializers.FLOAT);
     public static final EntityDataAccessor<Float> PITCH = SynchedEntityData.defineId(BulletEntity.class, EntityDataSerializers.FLOAT);
     private static final double GRAVITY = 0.05;
+    private static final double TERMINAL_VELOCITY = 5.0;
+    private static final double DRAG = 0.99;
     private Vec3 prevPos = Vec3.ZERO;
     private float prevYaw;
     private float prevPitch;
@@ -55,9 +57,19 @@ public class BulletEntity extends Projectile {
 
     private void serverTick() {
         Vec3 start = position();
-
         Vec3 velocity = getDeltaMovement();
+
+        // Gravity
         velocity = velocity.add(0, -GRAVITY, 0);
+
+        // Drag
+        velocity = velocity.scale(DRAG);
+
+        // Terminal velocity
+        if (velocity.y < -TERMINAL_VELOCITY) {
+            velocity = new Vec3(velocity.x, -TERMINAL_VELOCITY, velocity.z);
+        }
+
         setDeltaMovement(velocity);
 
         Vec3 end = start.add(velocity);
