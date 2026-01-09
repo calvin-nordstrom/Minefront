@@ -1,10 +1,12 @@
 package com.calvinnordstrom.minefront.entity.custom;
 
 import com.calvinnordstrom.minefront.Minefront;
+import com.calvinnordstrom.minefront.sound.ModSounds;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,6 +18,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+
+import static com.calvinnordstrom.minefront.util.SoundUtil.getPitch;
 
 public class BulletEntity extends Projectile {
     public static final EntityDataAccessor<Float> YAW = SynchedEntityData.defineId(BulletEntity.class, EntityDataSerializers.FLOAT);
@@ -130,7 +134,15 @@ public class BulletEntity extends Projectile {
 
     @Override
     protected void onHitBlock(BlockHitResult result) {
-        Minefront.LOGGER.info("Block hit: {}", level().getBlockState(result.getBlockPos()).getBlock());
+        level().playSound(
+                getOwner(),
+                result.getBlockPos(),
+                ModSounds.BULLET_IMPACTS.get(),
+                SoundSource.HOSTILE,
+                1.0F,
+                getPitch(level().getRandom())
+        );
+
         discard();
     }
 

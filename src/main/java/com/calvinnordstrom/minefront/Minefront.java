@@ -5,6 +5,7 @@ import com.calvinnordstrom.minefront.entity.ModEntities;
 import com.calvinnordstrom.minefront.entity.client.BulletEntityRenderer;
 import com.calvinnordstrom.minefront.item.ModCreativeModeTabs;
 import com.calvinnordstrom.minefront.item.ModItems;
+import com.calvinnordstrom.minefront.sound.ModSounds;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.neoforged.api.distmarker.Dist;
@@ -37,6 +38,8 @@ public class Minefront {
         ModItems.register(modEventBus);
 
         ModEntities.register(modEventBus);
+
+        ModSounds.register(modEventBus);
 
         modEventBus.addListener(this::addCreative);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);

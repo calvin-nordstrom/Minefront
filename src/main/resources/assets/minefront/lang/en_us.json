@@ -5,5 +5,7 @@
 
   "creativetab.minefront.guns": "Guns",
 
-  "entity.minefront.bullet": "Bullet"
+  "entity.minefront.bullet": "Bullet",
+
+  "sounds.minefront.bullet_impacts": "Bullet impacts"
 }
