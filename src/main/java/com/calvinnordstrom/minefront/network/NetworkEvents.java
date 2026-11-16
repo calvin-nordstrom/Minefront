@@ -22,8 +22,8 @@ public final class NetworkEvents {
     public static void register(RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar("1");
 
-        registrar.playBidirectional(StartFiringPayload.TYPE, StartFiringPayload.STREAM_CODEC, NetworkEvents::handleStartShooting);
-        registrar.playBidirectional(StopFiringPayload.TYPE, StopFiringPayload.STREAM_CODEC, NetworkEvents::handleStopShooting);
+        registrar.playToServer(StartFiringPayload.TYPE, StartFiringPayload.STREAM_CODEC, NetworkEvents::handleStartShooting);
+        registrar.playToServer(StopFiringPayload.TYPE, StopFiringPayload.STREAM_CODEC, NetworkEvents::handleStopShooting);
     }
 
     private static void handleStartShooting(StartFiringPayload payload, IPayloadContext ctx) {
