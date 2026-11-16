@@ -13,7 +13,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.ComputeFovModifierEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 import static com.calvinnordstrom.minefront.util.GunUtil.*;
 
@@ -44,12 +44,12 @@ public final class GunItemEvents {
         // Handle shooting
         if (isFiring(player)) {
             if (!triggerHeld) {
-                PacketDistributor.sendToServer(new StartFiringPayload());
+                ClientPacketDistributor.sendToServer(new StartFiringPayload());
             }
             triggerHeld = true;
         } else {
             if (triggerHeld) {
-                PacketDistributor.sendToServer(new StopFiringPayload());
+                ClientPacketDistributor.sendToServer(new StopFiringPayload());
             }
             triggerHeld = false;
         }

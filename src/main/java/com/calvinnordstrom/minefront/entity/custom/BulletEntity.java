@@ -2,7 +2,6 @@ package com.calvinnordstrom.minefront.entity.custom;
 
 import com.calvinnordstrom.minefront.Minefront;
 import com.calvinnordstrom.minefront.sound.ModSounds;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -14,6 +13,8 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -53,7 +54,7 @@ public class BulletEntity extends Projectile {
         prevYaw = getYRot();
         prevPitch = getXRot();
 
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             serverTick();
         }
     }
@@ -158,10 +159,10 @@ public class BulletEntity extends Projectile {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
+    protected void readAdditionalSaveData(ValueInput input) {
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
+    protected void addAdditionalSaveData(ValueOutput output) {
     }
 }

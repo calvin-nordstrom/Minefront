@@ -16,7 +16,7 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 import static com.calvinnordstrom.minefront.util.GunUtil.getHeldGun;
 
-@EventBusSubscriber(modid = Minefront.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Minefront.MOD_ID)
 public final class NetworkEvents {
     @SubscribeEvent // on the mod event bus
     public static void register(RegisterPayloadHandlersEvent event) {

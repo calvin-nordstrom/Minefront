@@ -3,16 +3,16 @@ package com.calvinnordstrom.minefront.entity.client;
 import com.calvinnordstrom.minefront.Minefront;
 import com.calvinnordstrom.minefront.entity.custom.BulletEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
-public class BulletEntityRenderer extends EntityRenderer<BulletEntity> {
+public class BulletEntityRenderer extends EntityRenderer<BulletEntity, BulletEntityRenderState> {
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(Minefront.MOD_ID, "textures/entity/bullet/bullet.png");
     private final BulletEntityModel model;
 
     public BulletEntityRenderer(EntityRendererProvider.Context context) {
@@ -22,29 +22,28 @@ public class BulletEntityRenderer extends EntityRenderer<BulletEntity> {
     }
 
     @Override
-    public void render(BulletEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+    public void submit(BulletEntityRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
         poseStack.pushPose();
 
-        float yaw = entity.getInterpolatedYaw(partialTick);
-        float pitch = entity.getInterpolatedPitch(partialTick);
+        poseStack.rotateDegrees(Axis.YP, state.yaw);
+        poseStack.rotateDegrees(Axis.XP, -state.pitch);
 
-        poseStack.mulPose(Axis.YP.rotationDegrees(yaw));
-        poseStack.mulPose(Axis.XP.rotationDegrees(-pitch));
-
-        VertexConsumer vc = ItemRenderer.getFoilBufferDirect(
-                bufferSource,
-                model.renderType(getTextureLocation(entity)),
-                false,
-                false
-        );
-
-        model.renderToBuffer(poseStack, vc, packedLight, OverlayTexture.NO_OVERLAY);
+        submitNodeCollector.submitModel(model, state, poseStack, TEXTURE, state.lightCoords, OverlayTexture.NO_OVERLAY, state.outlineColor);
 
         poseStack.popPose();
+
+        super.submit(state, poseStack, submitNodeCollector, camera);
     }
 
     @Override
-    public ResourceLocation getTextureLocation(BulletEntity entity) {
-        return ResourceLocation.fromNamespaceAndPath(Minefront.MOD_ID, "textures/entity/bullet/bullet.png");
+    public BulletEntityRenderState createRenderState() {
+        return new BulletEntityRenderState();
+    }
+
+    @Override
+    public void extractRenderState(BulletEntity entity, BulletEntityRenderState state, float partialTicks) {
+        super.extractRenderState(entity, state, partialTicks);
+        state.yaw = entity.getInterpolatedYaw(partialTicks);
+        state.pitch = entity.getInterpolatedPitch(partialTicks);
     }
 }

@@ -3,6 +3,9 @@ package com.calvinnordstrom.minefront.entity;
 import com.calvinnordstrom.minefront.Minefront;
 import com.calvinnordstrom.minefront.entity.custom.BulletEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.neoforged.bus.api.IEventBus;
@@ -18,7 +21,7 @@ public class ModEntities {
                     .sized(0.1F, 0.1F)
                     .clientTrackingRange(64)
                     .updateInterval(1)
-                    .build("bullet"));
+                    .build(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(Minefront.MOD_ID, "bullet"))));
 
     private ModEntities() {
     }

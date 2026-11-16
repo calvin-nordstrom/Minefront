@@ -2,7 +2,7 @@ package com.calvinnordstrom.minefront.sound;
 
 import com.calvinnordstrom.minefront.Minefront;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -22,7 +22,7 @@ public class ModSounds {
     }
 
     private static Supplier<SoundEvent> registerSoundEvent(String name) {
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(Minefront.MOD_ID, name);
+        Identifier id = Identifier.fromNamespaceAndPath(Minefront.MOD_ID, name);
         return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(id));
     }
 }
