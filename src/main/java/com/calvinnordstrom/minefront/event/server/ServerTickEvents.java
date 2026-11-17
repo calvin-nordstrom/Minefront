@@ -21,14 +21,25 @@ public class ServerTickEvents {
             return;
         }
 
-        GunItem gun = getHeldGun(player);
-        if (gun == null) {
-            return;
-        }
-
         GunState state = player.getData(ModAttachments.GUN_STATE);
+
+        // Count down even while no gun is held so cooldowns do not pause
         if (state.cooldownTicks > 0) {
             state.cooldownTicks--;
+        }
+
+        // Cancel any held trigger or burst in progress when the held gun changes
+        GunItem gun = getHeldGun(player);
+        int slot = player.getInventory().getSelectedSlot();
+        if (gun != state.heldGun || slot != state.heldSlot) {
+            state.triggerHeld = false;
+            state.burstShotsRemaining = 0;
+            state.heldGun = gun;
+            state.heldSlot = slot;
+        }
+
+        if (gun == null) {
+            return;
         }
 
         gun.getFireControl().serverTick((ServerPlayer) player, gun, state);
