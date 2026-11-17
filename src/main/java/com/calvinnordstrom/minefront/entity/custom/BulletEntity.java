@@ -5,9 +5,11 @@ import com.calvinnordstrom.minefront.sound.ModSounds;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.ClipContext;
@@ -153,6 +155,12 @@ public class BulletEntity extends Projectile {
     protected void onHitEntity(EntityHitResult result) {
         Minefront.LOGGER.info("Entity hit: {}", result.getEntity());
         discard();
+    }
+
+    @Override
+    public SoundSource getSoundSource() {
+        // Match the volume slider of the shooter, like vanilla bows use for players
+        return getOwner() instanceof Player ? SoundSource.PLAYERS : super.getSoundSource();
     }
 
     @Override
