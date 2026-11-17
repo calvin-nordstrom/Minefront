@@ -139,7 +139,7 @@ public class BulletEntity extends Projectile {
     @Override
     protected void onHitBlock(BlockHitResult result) {
         level().playSound(
-                getOwner(),
+                null,
                 result.getBlockPos(),
                 ModSounds.BULLET_IMPACTS.get(),
                 SoundSource.HOSTILE,
