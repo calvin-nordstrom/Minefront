@@ -1,11 +1,8 @@
 {
+  "entity.minefront.bullet": "Bullet",
+  "item.minefront.ak_47": "AK-47",
   "item.minefront.karabiner_98k": "Karabiner 98k",
   "item.minefront.mk12_mod_1": "Mk12 Mod 1",
-  "item.minefront.ak_47": "AK-47",
-
   "itemGroup.minefront.guns": "Guns",
-
-  "entity.minefront.bullet": "Bullet",
-
   "subtitles.minefront.bullet_impacts": "Bullet impacts"
 }
