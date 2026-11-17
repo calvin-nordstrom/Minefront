@@ -1,4 +1,4 @@
-package com.calvinnordstrom.minefront.entity.client;
+package com.calvinnordstrom.minefront.client.renderer;
 
 import com.calvinnordstrom.minefront.Minefront;
 import net.minecraft.client.model.EntityModel;
@@ -8,10 +8,10 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.Identifier;
 
-public class BulletEntityModel extends EntityModel<BulletEntityRenderState> {
+public class BulletModel extends EntityModel<BulletRenderState> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Identifier.fromNamespaceAndPath(Minefront.MOD_ID, "bullet"), "main");
 
-    public BulletEntityModel(ModelPart root) {
+    public BulletModel(ModelPart root) {
         super(root);
     }
 

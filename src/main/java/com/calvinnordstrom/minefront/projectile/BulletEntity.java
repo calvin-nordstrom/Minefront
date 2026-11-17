@@ -1,7 +1,7 @@
-package com.calvinnordstrom.minefront.entity.custom;
+package com.calvinnordstrom.minefront.projectile;
 
 import com.calvinnordstrom.minefront.Minefront;
-import com.calvinnordstrom.minefront.sound.ModSounds;
+import com.calvinnordstrom.minefront.registry.ModSoundEvents;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -142,7 +142,7 @@ public class BulletEntity extends Projectile {
         level().playSound(
                 null,
                 result.getBlockPos(),
-                ModSounds.BULLET_IMPACTS.get(),
+                ModSoundEvents.BULLET_IMPACTS.get(),
                 getSoundSource(),
                 1.0F,
                 getPitch(level().getRandom())

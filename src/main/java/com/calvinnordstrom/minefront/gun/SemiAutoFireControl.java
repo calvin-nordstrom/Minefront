@@ -1,9 +1,7 @@
 package com.calvinnordstrom.minefront.gun;
 
-import com.calvinnordstrom.minefront.attachment.custom.GunState;
-import com.calvinnordstrom.minefront.entity.ModEntities;
-import com.calvinnordstrom.minefront.entity.custom.BulletEntity;
-import com.calvinnordstrom.minefront.item.custom.GunItem;
+import com.calvinnordstrom.minefront.projectile.BulletEntity;
+import com.calvinnordstrom.minefront.registry.ModEntityTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
 
@@ -14,7 +12,7 @@ public class SemiAutoFireControl implements FireControl {
             return;
         }
 
-        BulletEntity bullet = new BulletEntity(ModEntities.BULLET.get(), player.level(), player);
+        BulletEntity bullet = new BulletEntity(ModEntityTypes.BULLET.get(), player.level(), player);
         Vec3 look = player.getLookAngle();
         bullet.shoot(look, gun.getStats().getVelocity());
         player.level().addFreshEntity(bullet);

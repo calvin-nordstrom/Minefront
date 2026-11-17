@@ -1,6 +1,5 @@
-package com.calvinnordstrom.minefront.attachment.custom;
+package com.calvinnordstrom.minefront.gun;
 
-import com.calvinnordstrom.minefront.item.custom.GunItem;
 
 public class GunState {
     public GunItem heldGun;

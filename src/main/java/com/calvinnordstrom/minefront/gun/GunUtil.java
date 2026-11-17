@@ -1,6 +1,5 @@
-package com.calvinnordstrom.minefront.util;
+package com.calvinnordstrom.minefront.gun;
 
-import com.calvinnordstrom.minefront.item.custom.GunItem;
 import net.minecraft.world.entity.player.Player;
 
 public class GunUtil {

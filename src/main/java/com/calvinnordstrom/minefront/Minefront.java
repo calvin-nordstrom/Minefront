@@ -1,10 +1,10 @@
 package com.calvinnordstrom.minefront;
 
-import com.calvinnordstrom.minefront.attachment.ModAttachments;
-import com.calvinnordstrom.minefront.entity.ModEntities;
-import com.calvinnordstrom.minefront.item.ModCreativeModeTabs;
-import com.calvinnordstrom.minefront.item.ModItems;
-import com.calvinnordstrom.minefront.sound.ModSounds;
+import com.calvinnordstrom.minefront.registry.ModAttachmentTypes;
+import com.calvinnordstrom.minefront.registry.ModCreativeModeTabs;
+import com.calvinnordstrom.minefront.registry.ModEntityTypes;
+import com.calvinnordstrom.minefront.registry.ModItems;
+import com.calvinnordstrom.minefront.registry.ModSoundEvents;
 import com.mojang.logging.LogUtils;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
@@ -16,14 +16,14 @@ public class Minefront {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public Minefront(IEventBus modEventBus) {
-        ModAttachments.register(modEventBus);
+        ModAttachmentTypes.register(modEventBus);
 
         ModCreativeModeTabs.register(modEventBus);
 
         ModItems.register(modEventBus);
 
-        ModEntities.register(modEventBus);
+        ModEntityTypes.register(modEventBus);
 
-        ModSounds.register(modEventBus);
+        ModSoundEvents.register(modEventBus);
     }
 }

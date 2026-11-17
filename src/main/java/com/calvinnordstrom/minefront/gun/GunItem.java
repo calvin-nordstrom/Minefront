@@ -1,7 +1,5 @@
-package com.calvinnordstrom.minefront.item.custom;
+package com.calvinnordstrom.minefront.gun;
 
-import com.calvinnordstrom.minefront.gun.FireControl;
-import com.calvinnordstrom.minefront.gun.GunStats;
 import net.minecraft.world.item.Item;
 
 public class GunItem extends Item {

@@ -1,8 +1,8 @@
-package com.calvinnordstrom.minefront.item;
+package com.calvinnordstrom.minefront.registry;
 
 import com.calvinnordstrom.minefront.Minefront;
 import com.calvinnordstrom.minefront.gun.*;
-import com.calvinnordstrom.minefront.item.custom.GunItem;
+import com.calvinnordstrom.minefront.gun.GunItem;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;

@@ -1,7 +1,7 @@
-package com.calvinnordstrom.minefront.entity;
+package com.calvinnordstrom.minefront.registry;
 
 import com.calvinnordstrom.minefront.Minefront;
-import com.calvinnordstrom.minefront.entity.custom.BulletEntity;
+import com.calvinnordstrom.minefront.projectile.BulletEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
@@ -13,7 +13,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
 
-public class ModEntities {
+public class ModEntityTypes {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, Minefront.MOD_ID);
 
     public static final Supplier<EntityType<BulletEntity>> BULLET =
@@ -23,7 +23,7 @@ public class ModEntities {
                     .updateInterval(1)
                     .build(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(Minefront.MOD_ID, "bullet"))));
 
-    private ModEntities() {
+    private ModEntityTypes() {
     }
 
     public static void register(IEventBus eventBus) {

@@ -1,19 +1,17 @@
-package com.calvinnordstrom.minefront.event.server;
+package com.calvinnordstrom.minefront.gun;
 
 import com.calvinnordstrom.minefront.Minefront;
-import com.calvinnordstrom.minefront.attachment.ModAttachments;
-import com.calvinnordstrom.minefront.attachment.custom.GunState;
-import com.calvinnordstrom.minefront.item.custom.GunItem;
+import com.calvinnordstrom.minefront.registry.ModAttachmentTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
-import static com.calvinnordstrom.minefront.util.GunUtil.getHeldGun;
+import static com.calvinnordstrom.minefront.gun.GunUtil.getHeldGun;
 
 @EventBusSubscriber(modid = Minefront.MOD_ID)
-public class ServerTickEvents {
+public class GunServerEvents {
     @SubscribeEvent
     public static void onPlayerTick(PlayerTickEvent.Post event) {
         Player player = event.getEntity();
@@ -21,7 +19,7 @@ public class ServerTickEvents {
             return;
         }
 
-        GunState state = player.getData(ModAttachments.GUN_STATE);
+        GunState state = player.getData(ModAttachmentTypes.GUN_STATE);
 
         // Count down even while no gun is held so cooldowns do not pause
         if (state.cooldownTicks > 0) {

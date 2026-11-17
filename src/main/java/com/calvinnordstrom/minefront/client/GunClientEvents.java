@@ -1,7 +1,7 @@
-package com.calvinnordstrom.minefront.event.client;
+package com.calvinnordstrom.minefront.client;
 
 import com.calvinnordstrom.minefront.Minefront;
-import com.calvinnordstrom.minefront.item.custom.GunItem;
+import com.calvinnordstrom.minefront.gun.GunItem;
 import com.calvinnordstrom.minefront.network.payload.StartFiringPayload;
 import com.calvinnordstrom.minefront.network.payload.StopFiringPayload;
 import net.minecraft.client.Minecraft;
@@ -17,11 +17,11 @@ import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 import static com.calvinnordstrom.minefront.client.ClientGunUtil.isAiming;
 import static com.calvinnordstrom.minefront.client.ClientGunUtil.isFiring;
-import static com.calvinnordstrom.minefront.util.GunUtil.getHeldGun;
-import static com.calvinnordstrom.minefront.util.GunUtil.isHoldingGun;
+import static com.calvinnordstrom.minefront.gun.GunUtil.getHeldGun;
+import static com.calvinnordstrom.minefront.gun.GunUtil.isHoldingGun;
 
 @EventBusSubscriber(value = Dist.CLIENT, modid = Minefront.MOD_ID)
-public final class GunItemEvents {
+public final class GunClientEvents {
     private static boolean triggerHeld = false;
 
     @SubscribeEvent

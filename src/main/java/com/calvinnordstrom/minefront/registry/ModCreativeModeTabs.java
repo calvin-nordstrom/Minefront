@@ -1,4 +1,4 @@
-package com.calvinnordstrom.minefront.item;
+package com.calvinnordstrom.minefront.registry;
 
 import com.calvinnordstrom.minefront.Minefront;
 import net.minecraft.core.registries.Registries;
