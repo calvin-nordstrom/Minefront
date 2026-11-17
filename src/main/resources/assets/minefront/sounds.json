@@ -1,9 +1,0 @@
-{
-  "bullet_impacts":{
-    "subtitle": "sounds.minefront.bullet_impacts",
-    "attenuation_distance": 16,
-    "sounds": [
-      "minefront:bullet_impacts_1"
-    ]
-  }
-}

@@ -1,11 +1,11 @@
 package com.calvinnordstrom.minefront.network;
 
 import com.calvinnordstrom.minefront.Minefront;
-import com.calvinnordstrom.minefront.attachment.ModAttachments;
-import com.calvinnordstrom.minefront.attachment.custom.GunState;
-import com.calvinnordstrom.minefront.item.custom.GunItem;
+import com.calvinnordstrom.minefront.gun.GunItem;
+import com.calvinnordstrom.minefront.gun.GunState;
 import com.calvinnordstrom.minefront.network.payload.StartFiringPayload;
 import com.calvinnordstrom.minefront.network.payload.StopFiringPayload;
+import com.calvinnordstrom.minefront.registry.ModAttachmentTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -14,7 +14,7 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
-import static com.calvinnordstrom.minefront.util.GunUtil.getHeldGun;
+import static com.calvinnordstrom.minefront.gun.GunUtil.getHeldGun;
 
 @EventBusSubscriber(modid = Minefront.MOD_ID)
 public final class NetworkEvents {
@@ -38,7 +38,7 @@ public final class NetworkEvents {
                 return;
             }
 
-            GunState state = player.getData(ModAttachments.GUN_STATE);
+            GunState state = player.getData(ModAttachmentTypes.GUN_STATE);
             gun.getFireControl().onTriggerPressed((ServerPlayer) player, gun, state);
         });
     }
@@ -51,7 +51,7 @@ public final class NetworkEvents {
             }
 
             // Release the trigger even if the gun is no longer held
-            GunState state = player.getData(ModAttachments.GUN_STATE);
+            GunState state = player.getData(ModAttachmentTypes.GUN_STATE);
             state.triggerHeld = false;
 
             GunItem gun = getHeldGun(player);

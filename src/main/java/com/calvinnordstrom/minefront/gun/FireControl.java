@@ -1,7 +1,5 @@
 package com.calvinnordstrom.minefront.gun;
 
-import com.calvinnordstrom.minefront.attachment.custom.GunState;
-import com.calvinnordstrom.minefront.item.custom.GunItem;
 import net.minecraft.server.level.ServerPlayer;
 
 public interface FireControl {

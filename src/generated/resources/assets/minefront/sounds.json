@@ -1,0 +1,8 @@
+{
+  "bullet_impacts": {
+    "sounds": [
+      "minefront:bullet_impacts_1"
+    ],
+    "subtitle": "subtitles.minefront.bullet_impacts"
+  }
+}
