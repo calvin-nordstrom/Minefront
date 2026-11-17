@@ -91,9 +91,12 @@ public class BulletEntity extends Projectile {
                 this
         ));
 
+        // Stop the entity search at the block hit so bullets cannot hit entities through walls
+        Vec3 entityEnd = block.getType() != HitResult.Type.MISS ? block.getLocation() : end;
+
         EntityHitResult entity = ProjectileUtil.getEntityHitResult(
-                level(), this, start, end,
-                getBoundingBox().expandTowards(getDeltaMovement()).inflate(1.0),
+                level(), this, start, entityEnd,
+                getBoundingBox().expandTowards(entityEnd.subtract(start)).inflate(1.0),
                 e -> e != getOwner()
         );
 
