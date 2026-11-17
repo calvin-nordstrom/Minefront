@@ -5,11 +5,11 @@ import com.calvinnordstrom.minefront.item.custom.GunItem;
 import com.calvinnordstrom.minefront.network.payload.StartFiringPayload;
 import com.calvinnordstrom.minefront.network.payload.StopFiringPayload;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.Options;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.CalculatePlayerTurnEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.ComputeFovModifierEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
@@ -22,26 +22,15 @@ import static com.calvinnordstrom.minefront.util.GunUtil.isHoldingGun;
 
 @EventBusSubscriber(value = Dist.CLIENT, modid = Minefront.MOD_ID)
 public final class GunItemEvents {
-    private static double storedSensitivity = -1.0;
     private static boolean triggerHeld = false;
 
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
         Player player = Minecraft.getInstance().player;
-        Options options = Minecraft.getInstance().options;
 
         GunItem gun = getHeldGun(player);
         if (gun == null) {
             return;
-        }
-
-        // Handle aiming sensitivity
-        if (isAiming(player) && storedSensitivity < 0) {
-            storedSensitivity = options.sensitivity().get();
-            options.sensitivity().set(storedSensitivity * gun.getStats().getAimSensitivityCoefficient());
-        } else if (!isAiming(player) && storedSensitivity >= 0) {
-            options.sensitivity().set(storedSensitivity);
-            storedSensitivity = -1;
         }
 
         // Handle shooting
@@ -55,6 +44,21 @@ public final class GunItemEvents {
                 ClientPacketDistributor.sendToServer(new StopFiringPayload());
             }
             triggerHeld = false;
+        }
+    }
+
+    @SubscribeEvent
+    public static void onCalculatePlayerTurn(CalculatePlayerTurnEvent event) {
+        Player player = Minecraft.getInstance().player;
+
+        GunItem gun = getHeldGun(player);
+        if (gun == null) {
+            return;
+        }
+
+        // Handle aiming sensitivity without modifying the saved option
+        if (isAiming(player)) {
+            event.setMouseSensitivity(event.getMouseSensitivity() * gun.getStats().getAimSensitivityCoefficient());
         }
     }
 
