@@ -15,7 +15,10 @@ import net.neoforged.neoforge.client.event.ComputeFovModifierEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
-import static com.calvinnordstrom.minefront.util.GunUtil.*;
+import static com.calvinnordstrom.minefront.client.ClientGunUtil.isAiming;
+import static com.calvinnordstrom.minefront.client.ClientGunUtil.isFiring;
+import static com.calvinnordstrom.minefront.util.GunUtil.getHeldGun;
+import static com.calvinnordstrom.minefront.util.GunUtil.isHoldingGun;
 
 @EventBusSubscriber(value = Dist.CLIENT, modid = Minefront.MOD_ID)
 public final class GunItemEvents {
