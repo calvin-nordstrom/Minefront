@@ -50,12 +50,15 @@ public final class NetworkEvents {
                 return;
             }
 
+            // Release the trigger even if the gun is no longer held
+            GunState state = player.getData(ModAttachments.GUN_STATE);
+            state.triggerHeld = false;
+
             GunItem gun = getHeldGun(player);
             if (gun == null) {
                 return;
             }
 
-            GunState state = player.getData(ModAttachments.GUN_STATE);
             gun.getFireControl().onTriggerReleased((ServerPlayer) player, gun, state);
         });
     }

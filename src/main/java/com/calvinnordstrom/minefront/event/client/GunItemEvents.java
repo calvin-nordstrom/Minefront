@@ -5,53 +5,56 @@ import com.calvinnordstrom.minefront.item.custom.GunItem;
 import com.calvinnordstrom.minefront.network.payload.StartFiringPayload;
 import com.calvinnordstrom.minefront.network.payload.StopFiringPayload;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.Options;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.CalculatePlayerTurnEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.ComputeFovModifierEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
-import static com.calvinnordstrom.minefront.util.GunUtil.*;
+import static com.calvinnordstrom.minefront.client.ClientGunUtil.isAiming;
+import static com.calvinnordstrom.minefront.client.ClientGunUtil.isFiring;
+import static com.calvinnordstrom.minefront.util.GunUtil.getHeldGun;
+import static com.calvinnordstrom.minefront.util.GunUtil.isHoldingGun;
 
 @EventBusSubscriber(value = Dist.CLIENT, modid = Minefront.MOD_ID)
 public final class GunItemEvents {
-    private static double storedSensitivity = -1.0;
     private static boolean triggerHeld = false;
 
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
         Player player = Minecraft.getInstance().player;
-        Options options = Minecraft.getInstance().options;
+        if (player == null) {
+            triggerHeld = false;
+            return;
+        }
+
+        // Handle shooting. This runs even when no gun is held so the trigger
+        // is released if the player switches away while firing.
+        boolean firing = isFiring(player);
+        if (firing && !triggerHeld) {
+            ClientPacketDistributor.sendToServer(new StartFiringPayload());
+        } else if (!firing && triggerHeld) {
+            ClientPacketDistributor.sendToServer(new StopFiringPayload());
+        }
+        triggerHeld = firing;
+    }
+
+    @SubscribeEvent
+    public static void onCalculatePlayerTurn(CalculatePlayerTurnEvent event) {
+        Player player = Minecraft.getInstance().player;
 
         GunItem gun = getHeldGun(player);
         if (gun == null) {
             return;
         }
 
-        // Handle aiming sensitivity
-        if (isAiming(player) && storedSensitivity < 0) {
-            storedSensitivity = options.sensitivity().get();
-            options.sensitivity().set(storedSensitivity * gun.getStats().getAimSensitivityCoefficient());
-        } else if (!isAiming(player) && storedSensitivity >= 0) {
-            options.sensitivity().set(storedSensitivity);
-            storedSensitivity = -1;
-        }
-
-        // Handle shooting
-        if (isFiring(player)) {
-            if (!triggerHeld) {
-                ClientPacketDistributor.sendToServer(new StartFiringPayload());
-            }
-            triggerHeld = true;
-        } else {
-            if (triggerHeld) {
-                ClientPacketDistributor.sendToServer(new StopFiringPayload());
-            }
-            triggerHeld = false;
+        // Handle aiming sensitivity without modifying the saved option
+        if (isAiming(player)) {
+            event.setMouseSensitivity(event.getMouseSensitivity() * gun.getStats().getAimSensitivityCoefficient());
         }
     }
 

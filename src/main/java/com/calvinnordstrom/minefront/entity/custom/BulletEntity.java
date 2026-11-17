@@ -9,6 +9,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.ClipContext;
@@ -91,9 +92,12 @@ public class BulletEntity extends Projectile {
                 this
         ));
 
+        // Stop the entity search at the block hit so bullets cannot hit entities through walls
+        Vec3 entityEnd = block.getType() != HitResult.Type.MISS ? block.getLocation() : end;
+
         EntityHitResult entity = ProjectileUtil.getEntityHitResult(
-                level(), this, start, end,
-                getBoundingBox().expandTowards(getDeltaMovement()).inflate(1.0),
+                level(), this, start, entityEnd,
+                getBoundingBox().expandTowards(entityEnd.subtract(start)).inflate(1.0),
                 e -> e != getOwner()
         );
 
@@ -136,10 +140,10 @@ public class BulletEntity extends Projectile {
     @Override
     protected void onHitBlock(BlockHitResult result) {
         level().playSound(
-                getOwner(),
+                null,
                 result.getBlockPos(),
                 ModSounds.BULLET_IMPACTS.get(),
-                SoundSource.HOSTILE,
+                getSoundSource(),
                 1.0F,
                 getPitch(level().getRandom())
         );
@@ -151,6 +155,12 @@ public class BulletEntity extends Projectile {
     protected void onHitEntity(EntityHitResult result) {
         Minefront.LOGGER.info("Entity hit: {}", result.getEntity());
         discard();
+    }
+
+    @Override
+    public SoundSource getSoundSource() {
+        // Match the volume slider of the shooter, like vanilla bows use for players
+        return getOwner() instanceof Player ? SoundSource.PLAYERS : super.getSoundSource();
     }
 
     @Override
