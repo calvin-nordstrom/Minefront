@@ -6,14 +6,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.function.Supplier;
-
 public class ModCreativeModeTabs {
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TAB = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Minefront.MOD_ID);
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Minefront.MOD_ID);
 
-    public static final Supplier<CreativeModeTab> GUNS_TAB = CREATIVE_MODE_TAB.register("guns", () -> CreativeModeTab.builder()
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> GUNS = CREATIVE_MODE_TABS.register("guns", () -> CreativeModeTab.builder()
             .icon(() -> new ItemStack(ModItems.KARABINER_98K.get()))
             .title(Component.translatable("creativetab.minefront.guns"))
             .displayItems((displayItemsGenerator, output) -> {
@@ -27,6 +26,6 @@ public class ModCreativeModeTabs {
     }
 
     public static void register(IEventBus eventBus) {
-        CREATIVE_MODE_TAB.register(eventBus);
+        CREATIVE_MODE_TABS.register(eventBus);
     }
 }

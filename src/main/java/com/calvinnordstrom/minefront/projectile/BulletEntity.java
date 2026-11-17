@@ -33,7 +33,7 @@ public class BulletEntity extends Projectile {
     private float prevPitch;
     private int life;
 
-    public BulletEntity(EntityType<? extends Projectile> entityType, Level level) {
+    public BulletEntity(EntityType<? extends BulletEntity> entityType, Level level) {
         super(entityType, level);
     }
 
