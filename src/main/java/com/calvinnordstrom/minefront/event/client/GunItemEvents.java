@@ -27,24 +27,20 @@ public final class GunItemEvents {
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
         Player player = Minecraft.getInstance().player;
-
-        GunItem gun = getHeldGun(player);
-        if (gun == null) {
+        if (player == null) {
+            triggerHeld = false;
             return;
         }
 
-        // Handle shooting
-        if (isFiring(player)) {
-            if (!triggerHeld) {
-                ClientPacketDistributor.sendToServer(new StartFiringPayload());
-            }
-            triggerHeld = true;
-        } else {
-            if (triggerHeld) {
-                ClientPacketDistributor.sendToServer(new StopFiringPayload());
-            }
-            triggerHeld = false;
+        // Handle shooting. This runs even when no gun is held so the trigger
+        // is released if the player switches away while firing.
+        boolean firing = isFiring(player);
+        if (firing && !triggerHeld) {
+            ClientPacketDistributor.sendToServer(new StartFiringPayload());
+        } else if (!firing && triggerHeld) {
+            ClientPacketDistributor.sendToServer(new StopFiringPayload());
         }
+        triggerHeld = firing;
     }
 
     @SubscribeEvent
